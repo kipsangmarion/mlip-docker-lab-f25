@@ -5,10 +5,10 @@ services:
     # TODO: Build the container using the training Dockerfile
     build:
       context: .
-      dockerfile:
+      dockerfile: docker/training/Dockerfile
     # TODO: Use the shared volume to store the trained model
     volumes:
-      - model_storage: 
+      - model_storage:/app/models
     # Set it to restart when it fails
     restart: on-failure
 
@@ -16,13 +16,13 @@ services:
     # TODO: Build the container using the inference Dockerfile
     build:
       context: .
-      dockerfile:
+      dockerfile: docker/inference/Dockerfile
     # TODO: Use the shared volume to load the trained model
     volumes:
-      - model_storage:
+      - model_storage:/app/models
     # TODO: Expose port 8080 (or any other port) for the Flask app
     ports:
-      - 
+      - "8080:8080"
     #Ensure that the inference service starts after the training service is complete
     depends_on:
       - training
